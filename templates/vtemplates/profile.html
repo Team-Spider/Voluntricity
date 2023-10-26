@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <title>Page Navigation</title>
+    <link rel="stylesheet" type="text/css" href="vprofile.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/vprofile.css' %}"
+    />
+  </head>
+
+  <body>
+    <header>
+      <button onclick="showPersonalInfo()" data-form="profile-form" class="pi">
+        Personal Info
+      </button>
+      <button onclick="showAddressInfo()" data-form="address-form" class="ai">
+        Address Info
+      </button>
+      <button onclick="showContactInfo()" data-form="contact-form" class="ci">
+        Contact Info
+      </button>
+      <button id="saveButton" onclick="saveChanges()" class="sa">
+        Save Changes
+      </button>
+    </header>
+    <div class="nishtha">
+      <!-- Profile Container content -->
+
+      <div class="profile-details">
+        <div class="raj">
+          <div class="profile-picture">
+            <img
+              src="https://imgs.search.brave.com/18JySVo2-PvlQDVeBNE0awQ0y65lPFg3ZEtrLCzr5Co/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9j/YXJ0b29uLWNoYXJh/Y3Rlci13aXRoLWZh/c2hpb24tYmFnXzcx/NzY3LTk4LmpwZz9z/aXplPTYyNiZleHQ9/anBn"
+              alt="Profile Picture"
+            />
+          </div>
+          <div class="details">
+            <h2 class="name">Nishtha</h2>
+            <p class="bio">email id</p>
+          </div>
+        </div>
+
+        <div class="outerbadadiv">
+          <div class="social-box">
+            <!-- Social Info content -->
+            <form action="/volunteers/social_links" method="POST">
+              {%csrf_token%}
+              <p class="sl">Social Links</p>
+              <div class="social-item">
+                <img
+                  src="https://imgs.search.brave.com/6EgyLmzbyfJkgTFi9JZF5IMoROjA_-_7nrdEXnEj3-4/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2U3L0luc3RhZ3Jh/bV9sb2dvXzIwMTYu/c3Zn.svg"
+                  alt="Instagram Icon"
+                  class="social-icon"
+                />
+                <input
+                  type="text"
+                  placeholder="Instagram ID"
+                  id="instagram"
+                  name="instagram"
+                />
+              </div>
+              <div class="social-item">
+                <img
+                  src="https://imgs.search.brave.com/SKkzQYERtG5-Tx245DcUJ6MIUCdx9ijFZpInGHj2hYE/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2QyL2U1/LzM1L2QyZTUzNTlm/ODQwMmNiOGQzZDdi/MjJjNDYzZjkwMTNi/LnBuZw"
+                  alt="Facebook Icon"
+                  class="social-icon"
+                />
+                <input
+                  type="text"
+                  placeholder="Facebook ID"
+                  id="facebook"
+                  name="facebook"
+                />
+              </div>
+              <div class="social-item">
+                <img
+                  src="https://imgs.search.brave.com/0onedxgdJWLsAOrzVTbco23TxXLuDJGb_uBUL74bc7k/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9j/L2NhL0xpbmtlZElu/X2xvZ29faW5pdGlh/bHMucG5n"
+                  alt="LinkedIn Icon"
+                  class="social-icon"
+                />
+                <input
+                  type="text"
+                  placeholder="LinkedIn ID"
+                  id="linkedin"
+                  name="linkedin"
+                />
+              </div>
+              <button class="custom-button" type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-info box">
+        <!-- Profile Info content -->
+        <div id="personalInfo" class="page">
+          <h2>Personal Information</h2>
+          <!-- Personal Info content -->
+          <form
+            id="profile-form"
+            action="/volunteers/personal_info"
+            method="POST"
+            class="prof"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+            <label for="first-name">First Name:</label>
+            <input
+              type="text"
+              id="first-name"
+              name="first-name"
+              required
+            /><br />
+
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" name="last-name" required /><br />
+
+            <label for="DateOfBirth">Date of Birth:</label>
+            <input
+              type="text"
+              id="DateOfBirth"
+              name="DateOfBirth"
+              pattern="\d{4}-\d{2}-\d{2}"
+              placeholder="yyyy-mm-dd"
+              required
+            /><br />
+
+            <label for="Gender">Gender:</label>
+            <select id="Gender" name="Gender" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option></select
+            ><br />
+
+            <label for="Prefered Pronoun">Preferred Pronoun:</label>
+            <input
+              type="text"
+              id="PreferredPronoun"
+              name="PreferredPronoun"
+              required
+            /><br />
+
+            <label for="Dietary Preferences">Dietary Preferences:</label>
+            <input
+              type="text"
+              id="DietaryPreferences"
+              name="DietaryPreferences"
+              required
+            /><br />
+
+            <label for="Allergies">Allergies:</label>
+            <input type="text" id="Allergies" name="Allergies" required /><br />
+
+            <div id="bioSection">
+              <label for="bio">Bio:</label>
+              <textarea id="bio" name="bio" rows="4" cols="50"></textarea>
+            </div>
+
+            <div id="profilePictureSection">
+              <label for="profilePicture">Profile Picture:</label>
+              <input type="file" id="profilePicture" name="profilePicture" />
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+        <!-- Address Info content -->
+        <div id="addressInfo" class="page">
+          <h1>Address Information</h1>
+          <form id="address-form" class="addr">
+            <label for="address">Address Line 1:</label>
+            <input type="address" id="address" name="address" required /><br />
+
+            <label for="address">Address Line 2:</label>
+            <input type="address" id="address" name="address" required /><br />
+
+            <label for="City">City</label>
+            <input type="City" id="City" name="City" required /><br />
+
+            <label for="Postal">Postal Code</label>
+            <input type="Postal" id="Postal" name="Postal" required /><br />
+
+            <label for="Country">Country</label>
+            <input type="Country" id="Country" name="Country" required /><br />
+            <button>Submit</button>
+          </form>
+        </div>
+        <!-- Contact Info content -->
+        <div id="contactInfo" class="page">
+          <h1>Contact Information</h1>
+          <form id="contact-form" class="cont">
+            <label for="contact">Contact No.:</label>
+            <input type="contact" id="contact" name="contact" required /><br />
+            <button>Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src='{%static "js/vprofile.js"%}'></script>
+  </body>
+</html>

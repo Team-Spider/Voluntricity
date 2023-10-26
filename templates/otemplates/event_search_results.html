@@ -1,0 +1,17 @@
+<!-- event_search_results.html -->
+<h1>Search Results</h1>
+<form method="get">
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for event in events %}
+        <li>
+            <a href="{% url 'event_detail' event.id %}">{{ event.event_name }}</a>
+            <!-- Display other event information here -->
+        </li>
+    {% empty %}
+        <li>No events found.</li>
+    {% endfor %}
+</ul>

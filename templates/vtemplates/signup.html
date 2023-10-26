@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voluntricity</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href='{%static "assets/img/logo.png" %}' rel="icon" />
+    <link
+      href='{%static "assets/img/apple-touch-icon.png"%}'
+      rel="apple-touch-icon"
+    />
+    <style>
+      body {
+        background-color: #bffcad;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 1200px; /* Increased max-width for larger screens */
+      }
+
+      .signcontainer {
+        background-color: #ffffff;
+        padding: 50px 50px;
+        margin: 24px 24px;
+        border-radius: 18px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 50%; /* Adjust the width for the sign-up container */
+      }
+
+      .imgcontainer {
+        background-image: url('{% static "img/org.jpeg" %}');
+        background-size: cover;
+        background-position: center;
+        width: 60%; /* Adjust the width for the image container */
+        height: 85vh; /* Make sure the image container covers half of the viewport height */
+        margin: 20px;
+        border-radius: 20px; /* Add rounded corners */
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      h2 {
+        font-size: 35px;
+        margin-bottom: 20px;
+        color: rgb(21, 21, 23);
+      }
+
+      .form button {
+        background-color: #438d4f;
+        color: #fff;
+        border-radius: 8px;
+        padding: 10px 20px;
+        margin: 12px 12px;
+        font-size: 18px;
+      }
+
+      .form button:hover {
+        background-color: rgb(144, 211, 148);
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="signcontainer">
+        <form
+          id="signup-form"
+          action="/volunteers/signup/"
+          method="post"
+          class="form"
+        >
+          <span style="color: red">{{ emessage }}</span>
+          {% for message in pmessage %}
+          <span style="color: red">{{ message }}</span>
+          {%endfor%}
+          {% csrf_token %}
+          <h2>Sign Up</h2>
+
+          <input
+            type="text"
+            class="form-control rounded-pill"
+            id="username"
+            name="username"
+            placeholder="Create Username"
+            required
+          />
+          <input
+            type="text"
+            class="form-control rounded-pill"
+            id="fname"
+            name="fname"
+            placeholder="Your First Name"
+            required
+          />
+          <input
+            type="text"
+            class="form-control rounded-pill"
+            id="lname"
+            name="lname"
+            placeholder="Your Last Name"
+            required
+          />
+          <input
+            type="email"
+            class="form-control rounded-pill"
+            id="email"
+            name="email"
+            placeholder="Your Email"
+            required
+          />
+          <input
+            type="password"
+            class="form-control rounded-pill"
+            id="pass1"
+            name="pass1"
+            placeholder="Password"
+            required
+          />
+          <input
+            type="password"
+            class="form-control rounded-pill"
+            id="pass2"
+            name="pass2"
+            placeholder="Repeat Password"
+            required
+          />
+          <button type="submit">Create an account</button>
+        </form>
+      </div>
+      <div class="imgcontainer"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{% autoescape off %} Dear {{ name }},
+
+Welcome to Voluntricity!
+
+Thank you for registering with us. To activate your
+account, please click on the link below:
+
+href="http://{{ domain }}/volunteers/activate/{{uid}}/{{token}}"
+
+Activate Your Account
+
+If you didn't request this, please ignore this email.
+
+Best regards,
+Team Spider
+{% endautoescape %}
