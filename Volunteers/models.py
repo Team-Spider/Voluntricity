@@ -1,6 +1,9 @@
+import os
 from django.db import models
-from django.utils.translation import gettext as _
-from Home.models import CustomUser
+from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import pre_save
+from .models import CustomUser
 
 GENDER_CHOICES = [
     ('M', _('Male')),
@@ -48,3 +51,15 @@ class Vprofile(models.Model):
 
     def __str__(self):
         return str(self.user)
+    
+# Signal to delete the old profile picture before saving the new one
+@receiver(pre_save, sender=Vprofile)
+def delete_previous_profile_pic(sender, instance, **kwargs):
+    try:
+        old_instance = Vprofile.objects.get(pk=instance.pk)
+        if old_instance.profile_pic and instance.profile_pic != old_instance.profile_pic:
+            # Delete the old profile picture file
+            if os.path.isfile(old_instance.profile_pic.path):
+                os.remove(old_instance.profile_pic.path)
+    except Vprofile.DoesNotExist:
+        pass
