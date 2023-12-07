@@ -132,7 +132,13 @@ def signin(request):
 def set_profile(request):
     user = request.user
     profile = Vprofile.objects.get(user = user)
-    var = {"fname" : profile.first_name}
+    var = {"instagram":profile.instagram_link, "facebook":profile.facebook_link, "linkedin":profile.linkedin_link,
+    "fname" : profile.first_name, "lname": profile.last_name, "dob": profile.date_of_birth, 
+    "gender": profile.gender, "pn": profile.preferred_pronoun, "dp": profile.dietary_preferences,
+    "allergies":profile.allergies, "bio": profile.bio, "pic":profile.profile_pic,
+    "line1":profile.address_line1, "line2":profile.address_line2, "city":profile.city, "postal":profile.postal_code,
+    "country":profile.country, "contact":profile.phone_number
+    }
     return render(request, "vtemplates/profile.html", var)
 
 
