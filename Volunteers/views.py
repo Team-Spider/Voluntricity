@@ -139,10 +139,11 @@ def set_profile(request):
     var = {"instagram":profile.instagram_link, "facebook":profile.facebook_link, "linkedin":profile.linkedin_link,
     "fname" : profile.first_name, "lname": profile.last_name, "dob": convert_date_format(profile.date_of_birth), 
     "Gender": profile.gender, "pn": profile.preferred_pronoun, "dp": profile.dietary_preferences,
-    "allergies":profile.allergies, "bio": profile.bio, "pic":profile.profile_pic,
+    "allergies":profile.allergies, "bio": profile.bio, "pic":profile.profile_pic.url,
     "line1":profile.address_line1, "line2":profile.address_line2, "city":profile.city, "postal":profile.postal_code,
     "country":profile.country, "contact":profile.phone_number
     }
+    print(var)
     return render(request, "vtemplates/profile.html", var)
 
 
