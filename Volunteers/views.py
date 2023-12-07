@@ -130,7 +130,10 @@ def signin(request):
 
 @login_required
 def set_profile(request):
-    return render(request, "vtemplates/profile.html")
+    user = request.user
+    profile = Vprofile.objects.get(user = user)
+    var = {"fname" : profile.first_name}
+    return render(request, "vtemplates/profile.html", var)
 
 
 @login_required
