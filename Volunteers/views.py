@@ -146,7 +146,7 @@ def social_links(request):
         profile.facebook_link = facebook
         profile.linkedin_link = linkedin
         profile.save()
-        return redirect('/')
+        return redirect('/volunteers/set_profile')
     
     return redirect('/volunteers/set_profile')
 
@@ -177,7 +177,7 @@ def personal_info(request):
         profile.profile_pic = pic
         profile.save()
         
-        return redirect('/')
+        return redirect('/volunteers/set_profile')
     
     return redirect('/volunteers/set_profile')
 
@@ -199,21 +199,21 @@ def address_info(request):
         profile.country=country
         profile.save()
         
-        return redirect('/')
+        return redirect('/volunteers/set_profile')
 
     return redirect('/volunteers/set_profile')
 
 @login_required
 def contact_info(request):
     if request.method=="POST":
-        contact=request.info['contact']
+        contact=request.POST['contact']
 
         user=request.user
         profile=Vprofile.objects.get(user=user)
         profile.phone_number=contact
         profile.save()
 
-        return redirect('/')
+        return redirect('/volunteers/set_profile')
 
     return redirect('/volunteers/set_profile')
 

@@ -7,7 +7,7 @@ def home(request):
         user = request.user
         if user.is_volunteer:
             return redirect('volunteers/')
-        if user.is_organization:
+        elif user.is_organization:
             return redirect('organizations/')
     return render(request, 'index.html')
 

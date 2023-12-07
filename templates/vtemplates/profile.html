@@ -22,9 +22,9 @@
       <button onclick="showContactInfo()" data-form="contact-form" class="ci">
         Contact Info
       </button>
-      <button id="saveButton" onclick="saveChanges()" class="sa">
-        Save Changes
-      </button>
+      <a href = "/"></A><button id="saveButton" class="sa">
+        Done
+      </button></a>
     </header>
     <div class="nishtha">
       <!-- Profile Container content -->
@@ -130,9 +130,9 @@
 
             <label for="Gender">Gender:</label>
             <select id="Gender" name="Gender" required>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option></select
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="O">Other</option></select
             ><br />
 
             <label for="Prefered Pronoun">Preferred Pronoun:</label>
@@ -172,10 +172,10 @@
           <form id="address-form" class="addr" action="/volunteers/address_info" method="POST">
             {%csrf_token%}
             <label for="address1">Address Line 1:</label>
-            <input type="address" id="address1" name="address" required /><br />
+            <input type="address" id="address1" name="address1" required /><br />
 
             <label for="address2">Address Line 2:</label>
-            <input type="address" id="address2" name="address" required /><br />
+            <input type="address" id="address2" name="address2" required /><br />
 
             <label for="City">City</label>
             <input type="City" id="City" name="City" required /><br />
