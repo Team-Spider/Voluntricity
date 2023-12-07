@@ -3,7 +3,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import pre_save
-from .models import CustomUser
+from Home.models import CustomUser
 
 GENDER_CHOICES = [
     ('M', _('Male')),

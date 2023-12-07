@@ -134,7 +134,7 @@ def set_profile(request):
     profile = Vprofile.objects.get(user = user)
     var = {"instagram":profile.instagram_link, "facebook":profile.facebook_link, "linkedin":profile.linkedin_link,
     "fname" : profile.first_name, "lname": profile.last_name, "dob": profile.date_of_birth, 
-    "gender": profile.gender, "pn": profile.preferred_pronoun, "dp": profile.dietary_preferences,
+    "Gender": profile.gender, "pn": profile.preferred_pronoun, "dp": profile.dietary_preferences,
     "allergies":profile.allergies, "bio": profile.bio, "pic":profile.profile_pic,
     "line1":profile.address_line1, "line2":profile.address_line2, "city":profile.city, "postal":profile.postal_code,
     "country":profile.country, "contact":profile.phone_number
@@ -166,7 +166,7 @@ def personal_info(request):
         fname = request.POST['first-name']
         lname = request.POST['last-name']
         dob = request.POST['DateOfBirth']
-        gender = request.POST['Gender']
+        Gender = request.POST['Gender']
         pn = request.POST['PreferredPronoun']
         dp = request.POST['DietaryPreferences']
         allergies = request.POST['Allergies']
@@ -178,7 +178,7 @@ def personal_info(request):
         profile.first_name = fname
         profile.last_name = lname
         profile.date_of_birth = dob
-        profile.gender = gender
+        profile.gender = Gender
         profile.preferred_pronoun = pn
         profile.dietary_preferences = dp
         profile.allergies = allergies
