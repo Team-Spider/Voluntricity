@@ -1,11 +1,14 @@
 from django.contrib import admin
-from .models import Vprofile
-
+from django.utils.translation import gettext_lazy as _
+from .models import Vprofile, GENDER_CHOICES
 
 @admin.register(Vprofile)
 class VprofileAdmin(admin.ModelAdmin):
-    search_fields = ("username", "first_name")
+    search_fields = ("user__username", "first_name", "last_name")
     
+    list_display = ("user", "first_name", "last_name", "gender", "date_of_birth", "phone_number", "city", "country")
+    list_filter = ("gender", "country")
+
     fieldsets = (
         (
             "Personal Info",
@@ -48,4 +51,22 @@ class VprofileAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+    def get_search_results(self, request, queryset, search_term):
+        queryset, use_distinct = super().get_search_results(request, queryset, search_term)
+        queryset |= self.model.objects.filter(user__email__icontains=search_term)
+        return queryset, use_distinct
+
+    def user_info(self, obj):
+        return f"{obj.user.username} - {obj.user.email}"
+    user_info.short_description = 'User Information'
+
+    def get_list_display_links(self, request, list_display):
+        # Make the first column (user_info) a link to the change page
+        return ['user']
+
+admin.site.site_header = "Voluntricity Administration"
+admin.site.site_title = "Voluntricity Admin Portal"
+admin.site.index_title = "Welcome to Voluntricity Admin"
+
 
