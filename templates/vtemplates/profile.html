@@ -29,7 +29,7 @@
     <div class="profile-details">
       <div class="raj">
         <div class="profile-picture">
-          <img {%if pic%} src={{pic}} {%else%}
+          <img {%if pic%} src = "{{pic}}" {%else%}
             src="https://imgs.search.brave.com/18JySVo2-PvlQDVeBNE0awQ0y65lPFg3ZEtrLCzr5Co/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9j/YXJ0b29uLWNoYXJh/Y3Rlci13aXRoLWZh/c2hpb24tYmFnXzcx/NzY3LTk4LmpwZz9z/aXplPTYyNiZleHQ9/anBn"
             {%endif%} alt="Profile Picture" />
         </div>
@@ -89,9 +89,9 @@
 
           <label for="Gender">Gender:</label>
           <select id="Gender" name="Gender" required>
-            <option value="M" {% if Gender=='M' %}selected{% endif %}>Male</option>
-            <option value="F" {% if Gender=='F' %}selected{% endif %}>Female</option>
-            <option value="O" {% if Gender=='O' %}selected{% endif %}>Other</option>
+            <option value="M" {% if Gender == 'M' %}selected{% endif %}>Male</option>
+            <option value="F" {% if Gender == 'F' %}selected{% endif %}>Female</option>
+            <option value="O" {% if Gender == 'O' %}selected{% endif %}>Other</option>
           </select><br />
 
           <label for="Prefered Pronoun">Preferred Pronoun:</label>
