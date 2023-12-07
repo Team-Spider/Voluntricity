@@ -68,7 +68,7 @@
                   alt="Facebook Icon"
                   class="social-icon"
                 />
-                <input
+                <input 
                   type="text"
                   placeholder="Facebook ID"
                   id="facebook"
@@ -109,6 +109,7 @@
             {% csrf_token %}
             <label for="first-name">First Name:</label>
             <input
+            value={{fname}}
               type="text"
               id="first-name"
               name="first-name"
