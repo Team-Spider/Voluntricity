@@ -68,7 +68,7 @@ def signup(request):
         
         # Email address confirmation email
         current_site = get_current_site(request)
-        email_subject = "COnfirm your email for Voluntricity"
+        email_subject = "Confirm your email for Voluntricity"
         message2 = render_to_string(
             "vtemplates/email_confirmation.html",
             {
@@ -180,4 +180,41 @@ def personal_info(request):
         return redirect('/')
     
     return redirect('/volunteers/set_profile')
+
+@login_required
+def address_info(request):
+    if request.method=="POST":
+        line1=request.POST['address1']
+        line2=request.POST['address2']
+        city=request.POST['City']
+        postal=request.POST['Postal']
+        country=request.POST['Country']        
+
+        user=request.user
+        profile=Vprofile.objects.get(user=user)
+        profile.address_line1=line1
+        profile.address_line2=line2
+        profile.city=city
+        profile.postal_code=postal
+        profile.country=country
+        profile.save()
+        
+        return redirect('/')
+
+    return redirect('/volunteers/set_profile')
+
+@login_required
+def contact_info(request):
+    if request.method=="POST":
+        contact=request.info['contact']
+
+        user=request.user
+        profile=Vprofile.objects.get(user=user)
+        profile.phone_number=contact
+        profile.save()
+
+        return redirect('/')
+
+    return redirect('/volunteers/set_profile')
+
         

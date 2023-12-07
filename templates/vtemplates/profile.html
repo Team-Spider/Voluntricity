@@ -169,12 +169,13 @@
         <!-- Address Info content -->
         <div id="addressInfo" class="page">
           <h1>Address Information</h1>
-          <form id="address-form" class="addr">
-            <label for="address">Address Line 1:</label>
-            <input type="address" id="address" name="address" required /><br />
+          <form id="address-form" class="addr" action="/volunteers/address_info" method="POST">
+            {%csrf_token%}
+            <label for="address1">Address Line 1:</label>
+            <input type="address" id="address1" name="address" required /><br />
 
-            <label for="address">Address Line 2:</label>
-            <input type="address" id="address" name="address" required /><br />
+            <label for="address2">Address Line 2:</label>
+            <input type="address" id="address2" name="address" required /><br />
 
             <label for="City">City</label>
             <input type="City" id="City" name="City" required /><br />
@@ -190,7 +191,8 @@
         <!-- Contact Info content -->
         <div id="contactInfo" class="page">
           <h1>Contact Information</h1>
-          <form id="contact-form" class="cont">
+          <form id="contact-form" class="cont" action="/volunteers/contact_info" method="POST">
+            {%csrf_token%}
             <label for="contact">Contact No.:</label>
             <input type="contact" id="contact" name="contact" required /><br />
             <button>Submit</button>
