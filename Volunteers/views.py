@@ -14,6 +14,10 @@ from .models import Vprofile
 from Voluntricity import settings
 import re
 
+def convert_date_format(date_of_birth):
+    formatted_date = date_of_birth.strftime("%Y-%m-%d")
+    return formatted_date
+
 def isnot_valid_userstring(input_string):
     # Define the regular expression pattern for the given conditions
     pattern = r"^[A-Za-z0-9@/./+/-/_]{1,150}$"
@@ -133,7 +137,7 @@ def set_profile(request):
     user = request.user
     profile = Vprofile.objects.get(user = user)
     var = {"instagram":profile.instagram_link, "facebook":profile.facebook_link, "linkedin":profile.linkedin_link,
-    "fname" : profile.first_name, "lname": profile.last_name, "dob": profile.date_of_birth, 
+    "fname" : profile.first_name, "lname": profile.last_name, "dob": convert_date_format(profile.date_of_birth), 
     "Gender": profile.gender, "pn": profile.preferred_pronoun, "dp": profile.dietary_preferences,
     "allergies":profile.allergies, "bio": profile.bio, "pic":profile.profile_pic,
     "line1":profile.address_line1, "line2":profile.address_line2, "city":profile.city, "postal":profile.postal_code,
