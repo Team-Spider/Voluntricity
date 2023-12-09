@@ -177,6 +177,7 @@ def social_links(request):
         return redirect('/volunteers/set_profile')
     
     return redirect('/volunteers/set_profile')
+    
 
 @login_required
 def personal_info(request):

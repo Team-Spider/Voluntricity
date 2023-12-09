@@ -156,3 +156,56 @@ def set_profile(request):
         "contact": profile.phone_number,
     }
     return render(request, "otemplates/profile.html", context)
+
+@login_required
+def social_links(request):
+    if request.method == "POST":
+        instagram = request.POST['instagram']
+        facebook = request.POST['facebook']
+        linkedin = request.POST['linkedin']
+        
+        user = request.user
+        profile = Oprofile.objects.get(user = user)
+        profile.instagram_link = instagram
+        profile.facebook_link = facebook
+        profile.linkedin_link = linkedin
+        profile.save()
+        return redirect('/organizations/set_profile')
+    
+    return redirect('/organizations/set_profile')
+
+@login_required
+def address_info(request):
+    if request.method=="POST":
+        line1=request.POST['address1']
+        line2=request.POST['address2']
+        city=request.POST['City']
+        postal=request.POST['Postal']
+        country=request.POST['Country']        
+
+        user=request.user
+        profile=Oprofile.objects.get(user=user)
+        profile.address_line1=line1
+        profile.address_line2=line2
+        profile.city=city
+        profile.postal_code=postal
+        profile.country=country
+        profile.save()
+        
+        return redirect('/organizations/set_profile')
+
+    return redirect('/organizations/set_profile')
+
+@login_required
+def contact_info(request):
+    if request.method=="POST":
+        contact=request.POST['contact']
+
+        user=request.user
+        profile=Oprofile.objects.get(user=user)
+        profile.phone_number=contact
+        profile.save()
+
+        return redirect('/organizations/set_profile')
+
+    return redirect('/organizations/set_profile')
