@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from Home.models import CustomUser
 from .models import Oprofile
-from Voluntricity import settings
+from Voluntricity import settings 
 import hashlib, secrets
 
 def generate_unique_code(organization_name):
@@ -170,6 +170,27 @@ def social_links(request):
         profile.facebook_link = facebook
         profile.linkedin_link = linkedin
         profile.save()
+        return redirect('/organizations/set_profile')
+    
+    return redirect('/organizations/set_profile')
+
+@login_required
+def personal_info(request):
+    if request.method == "POST":
+        
+        orgname = request.POST['organization-name']
+        website = request.POST['website']
+        description = request.POST['description']
+        logo = request.FILES.get('logo')
+        
+        user = request.user
+        profile = Oprofile.objects.get(user = user)
+        profile.organization_name = orgname
+        profile.website = website
+        profile.description = description
+        profile.logo = logo
+        profile.save()
+        
         return redirect('/organizations/set_profile')
     
     return redirect('/organizations/set_profile')

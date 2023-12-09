@@ -29,20 +29,20 @@
     <div class="profile-details">
       <div class="raj">
         <div class="profile-picture">
-          <img {%if pic%} src = "{{pic}}" {%else%}
+          <img {%if pic%} src="{{pic}}" {%else%}
             src="https://imgs.search.brave.com/18JySVo2-PvlQDVeBNE0awQ0y65lPFg3ZEtrLCzr5Co/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9j/YXJ0b29uLWNoYXJh/Y3Rlci13aXRoLWZh/c2hpb24tYmFnXzcx/NzY3LTk4LmpwZz9z/aXplPTYyNiZleHQ9/anBn"
             {%endif%} alt="Profile Picture" />
         </div>
         <div class="details">
-          <h2 class="name">Nishtha</h2>
-          <p class="bio">email id</p>
+          <h2 class="name">{{orgname}}</h2>
+          <p class="bio">{{email}}</p>
         </div>
       </div>
 
       <div class="outerbadadiv">
         <div class="social-box">
           <!-- Social Info content -->
-          <form action="/volunteers/social_links" method="POST">
+          <form action="/organizations/social_links" method="POST">
             {%csrf_token%}
             <p class="sl">Social Links</p>
             <div class="social-item">
@@ -74,27 +74,25 @@
       <div id="personalInfo" class="page">
         <h2>Personal Information</h2>
         <!-- Personal Info content -->
-        <form id="profile-form" action="/volunteers/personal_info" method="POST" class="prof"
+        <form id="profile-form" action="/organizations/personal_info" method="POST" class="prof"
           enctype="multipart/form-data">
           {% csrf_token %}
           <label for="organization-name">organization Name:</label>
-          <input value={{fname}} type="text" id="organization-name" name="organization-name" required /><br />
+          <input value={{orgname}} type="text" id="organization-name" name="organization-name" required /><br />
 
           <div class="social-item">
-            <img
-              src="https://imgs.search.brave.com/SKkzQYERtG5-Tx245DcUJ6MIUCdx9ijFZpInGHj2hYE/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2QyL2U1/LzM1L2QyZTUzNTlm/ODQwMmNiOGQzZDdi/MjJjNDYzZjkwMTNi/LnBuZw"
-              alt="Facebook Icon" class="social-icon" />
-            <input value={{facebook}} type="text" placeholder="Facebook ID" id="facebook" name="facebook" />
+            <img src="{% static 'img\icons8-web.gif' %}" alt="Facebook Icon" class="social-icon" />
+            <input value={{website}} type="text" placeholder="website" id="website" name="website" />
           </div>
 
           <div id="bioSection">
             <label for="description">description:</label>
-            <textarea id="description" name="description" rows="4" cols="50">{{ bio }}</textarea>
+            <textarea id="description" name="description" rows="4" cols="50">{{ description }}</textarea>
           </div>
 
           <div id="profilePictureSection">
             <label for="profilePicture">Profile Picture:</label>
-            <input type="file" id="profilePicture" name="profilePicture" />
+            <input type="file" id="logo" name="logo" />
           </div>
           <button type="submit">Submit</button>
         </form>
@@ -102,7 +100,7 @@
       <!-- Address Info content -->
       <div id="addressInfo" class="page">
         <h1>Address Information</h1>
-        <form id="address-form" class="addr" action="/volunteers/address_info" method="POST">
+        <form id="address-form" class="addr" action="/organizations/address_info" method="POST">
           {%csrf_token%}
           <label for="address1">Address Line 1:</label>
           <input value={{line1}} type="address" id="address1" name="address1" required /><br />
@@ -124,7 +122,7 @@
       <!-- Contact Info content -->
       <div id="contactInfo" class="page">
         <h1>Contact Information</h1>
-        <form id="contact-form" class="cont" action="/volunteers/contact_info" method="POST">
+        <form id="contact-form" class="cont" action="/organizations/contact_info" method="POST">
           {%csrf_token%}
           <label for="contact">Contact No.:</label>
           <input value={{contact}} type="contact" id="contact" name="contact" required /><br />
