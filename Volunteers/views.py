@@ -150,7 +150,7 @@ def set_profile(request):
         "dp": profile.dietary_preferences,
         "allergies": profile.allergies,
         "bio": profile.bio,
-        "pic": profile.profile_pic.url,
+        "pic": profile.profile_pic.url if profile.profile_pic else None,
         "line1": profile.address_line1,
         "line2": profile.address_line2,
         "city": profile.city,

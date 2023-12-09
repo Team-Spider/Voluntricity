@@ -3,6 +3,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login, authenticate, password_validation
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from Voluntricity.tokens import generate_token
 from django.utils.encoding import force_bytes
@@ -133,3 +134,25 @@ def signin(request):
             return redirect("/organizations/signin")
 
     return render(request, "otemplates/signin.html")
+
+@login_required
+def set_profile(request):
+    user = request.user
+    profile = Oprofile.objects.get(user=user)
+    context = {
+        "orgname": profile.organization_name,
+        "description": profile.description,
+        "email": user.email,
+        "instagram": profile.instagram_link,
+        "facebook": profile.facebook_link,
+        "linkedin": profile.linkedin_link,
+        "website": profile.website, 
+        "pic": profile.logo.url if profile.logo else None,
+        "line1": profile.address_line1,
+        "line2": profile.address_line2,
+        "city": profile.city,
+        "postal": profile.postal_code,
+        "country": profile.country,
+        "contact": profile.phone_number,
+    }
+    return render(request, "otemplates/profile.html", context)
