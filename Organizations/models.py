@@ -36,3 +36,39 @@ class Oprofile(models.Model):
 
     def __str__(self):
         return self.organization_name
+
+class Event(models.Model):
+    event_name = models.CharField(max_length=255)
+    event_description = models.TextField()
+    event_date = models.DateField()
+    event_location = models.CharField(max_length=255)
+    event_time = models.TimeField()
+    registration_deadline = models.DateField()
+    registered = models.IntegerField(default=0)
+    total_volunteers_required = models.IntegerField()
+    banner = models.ImageField(
+        _('Logo'),
+        upload_to='event_banners/', 
+        blank=True,
+        null=True,
+    )
+
+    def __str__(self):
+        return self.event_name
+
+class Requirement(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    requirement_name = models.CharField(max_length=255, primary_key=True)
+    requirement_description = models.TextField()
+
+    def __str__(self):
+        return self.requirement_name
+
+class IncludedItem(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    included_name = models.CharField(max_length=255, primary_key=True)
+    included_description = models.TextField()
+
+    def __str__(self):
+        return self.included_name
+
