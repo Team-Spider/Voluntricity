@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Event Entry Form</title>
+    <link rel="stylesheet" href="{% static 'css/set_events.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Event Entry Form</h1>
+
+        <form enctype="multipart/form-data" action="/organizations/set_events" method="POST">
+            {% csrf_token %}
+
+            <!-- Event Details -->
+            <label for="eventName">Event Name:</label>
+            <input type="text" id="eventName" name="event_name" required>
+
+            <label for="eventDescription">Event Description:</label>
+            <textarea id="eventDescription" name="event_description" required></textarea>
+
+            <label for="eventDate">Event Date:</label>
+            <input type="date" id="eventDate" name="event_date" required>
+
+            <label for="eventLocation">Event Location:</label>
+            <input type="text" id="eventLocation" name="event_location" required>
+
+            <label for="eventTime">Event Time:</label>
+            <input type="time" id="eventTime" name="event_time" required>
+
+            <label for="registrationDeadline">Registration Deadline:</label>
+            <input type="date" id="registrationDeadline" name="registration_deadline" required>
+
+            <!-- Requirement Section -->
+            <h2>Requirement Section</h2>
+
+            <!-- Volunteer Requirement 1 -->
+            <label for="volunteerReq1">Volunteer Requirement 1:</label>
+            <input type="text" id="volunteerReq1" name="volunteer_req_1" required>
+
+            <!-- Volunteer Requirement 2 -->
+            <label for="volunteerReq2">Volunteer Requirement 2:</label>
+            <input type="text" id="volunteerReq2" name="volunteer_req_2" required>
+
+            <!-- Volunteer Requirement 3 -->
+            <label for="volunteerReq3">Volunteer Requirement 3:</label>
+            <input type="text" id="volunteerReq3" name="volunteer_req_3" required>
+
+            <!-- Volunteer Requirement 4 -->
+            <label for="volunteerReq4">Volunteer Requirement 4:</label>
+            <input type="text" id="volunteerReq4" name="volunteer_req_4" required>
+
+            <!-- What's Included Details -->
+            <h2>What's Included</h2>
+
+            <!-- What's Included 1 -->
+            <label for="includedLunch">What's Included 1:</label>
+            <input type="text" id="includedLunch" name="included_whats_1" required>
+
+            <!-- What's Included 2 -->
+            <label for="includedDinner">What's Included 2:</label>
+            <input type="text" id="includedDinner" name="included_whats_2" required>
+
+            <!-- What's Included 3 -->
+            <label for="includedWorkshops">What's Included 3:</label>
+            <input type="text" id="includedWorkshops" name="included_whats_3" required>
+
+            <!-- What's Included 4 -->
+            <label for="includedNetworking">What's Included 4:</label>
+            <input type="text" id="includedNetworking" name="included_whats_4" required>
+
+            <!-- What's Included 5 -->
+            <label for="includedMaterials">What's Included 5:</label>
+            <input type="text" id="includedMaterials" name="included_whats_5" required>
+
+            <!-- What's Included 6 -->
+            <label for="includedSpecialSession">What's Included 6:</label>
+            <input type="text" id="includedSpecialSession" name="included_whats_6" required>
+
+            <!-- Image Upload Section -->
+            <h2>Image Upload Section</h2>
+            <label for="imageUpload">Upload an image (max size: 2MB):</label>
+            <input type="file" id="imageUpload" name="image_upload" accept="image/*" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>

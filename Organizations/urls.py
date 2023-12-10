@@ -10,5 +10,8 @@ urlpatterns = [
     path('social_links', views.social_links, name = "social_links"),
     path('personal_info', views.personal_info, name = "personal_info"),
     path('address_info', views.address_info, name= "address_info"),
-    path('contact_info', views.contact_info, name="contact_info")
+    path('contact_info', views.contact_info, name="contact_info"),
+    path('set_event', views.set_event, name="set_event"),
+    path('set_event/requirement', views.requirement, name="set_event.req"),
+    path('set_event/included', views.included, name="set_event.inc")
 ]

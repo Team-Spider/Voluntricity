@@ -230,3 +230,69 @@ def contact_info(request):
         return redirect('/organizations/set_profile')
 
     return redirect('/organizations/set_profile')
+
+@login_required
+def set_event(request):
+    if request.method:
+        eventName=request.POST.get('eventName','')
+        eventDescription=request.POST.get('eventDescription','')
+        eventDate=request.POST.get('eventDate','')
+        eventLocation=request.POST.get('eventLocation','')
+        eventTime=request.POST.get('eventTime','')
+        registrationDeadline=request.POST.get('registrationDeadline','')
+        imageUpload=request.FILES.get('imageUpload')
+
+        user=request.user
+        event=Event.objects.get(user=user)
+        event.event_name=eventName
+        event.event_description=eventDescription
+        event.event_date=eventDate
+        event.event_location=eventLocation
+        event.event_time=eventTime
+        event.registration_deadline=registrationDeadline
+        event.banner=imageUpload
+        event.save()
+
+        return redirect('/organizations/set_event')
+
+    return redirect('/organizations/set_event')
+
+@login_required
+def requirement(request):
+    if request.method==['POST']:
+        eventName=request.POST['eventName']
+        volunteerReq1=request.POST['volunteerReq1']
+        volunteerReq2=request.POST['volunteerReq2']
+        volunteerReq3=request.POST['volunteerReq3']
+        volunteerReq4=request.POST['volunteerReq4']
+
+        user=request.user
+        requirement=Requirement.objects.get(user=user)
+        requirement.event=eventName
+
+        requirement.save()
+
+        return redirect('/organizations/set_event')
+
+    return redirect('/organizations/set_event')
+
+@login_required
+def included(request):
+    if request.method==['POST']:
+        eventName=request.POST['eventName']
+        includedLunch=request.POST['includedLunch']
+        includedDinner=request.POST['includedDinner']
+        includedWorkshops=request.POST['includedWorkshops']
+        includedNetworking=request.POST['includedNetworking']
+        includedMaterials=request.POST['includedMaterials']
+        includedSpecialSession=request.POST['includedSpecialSession']
+
+        user=request.user
+        included=IncludedItem.objects.get(user=user)
+        included.event=eventName
+
+        included.save()
+
+        return redirect('/organizations/set_event')
+
+    return redirect('/organizations/set_event')
