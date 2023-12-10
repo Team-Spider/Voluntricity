@@ -53,6 +53,8 @@ class Event(models.Model):
         null=True,
     )
 
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.event_name
 

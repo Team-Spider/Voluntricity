@@ -10,7 +10,7 @@ from django.utils.encoding import force_bytes
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from Home.models import CustomUser
-from .models import Oprofile
+from .models import Oprofile, Event, Requirement, IncludedItem
 from Voluntricity import settings 
 import hashlib, secrets
 
@@ -243,7 +243,7 @@ def set_event(request):
         imageUpload=request.FILES.get('imageUpload')
 
         user=request.user
-        event=Event.objects.get(user=user)
+        event=Event.objects.create(user=user)
         event.event_name=eventName
         event.event_description=eventDescription
         event.event_date=eventDate
@@ -255,7 +255,7 @@ def set_event(request):
 
         return redirect('/organizations/set_event')
 
-    return redirect('/organizations/set_event')
+    return render(request, 'set_event.html')
 
 @login_required
 def requirement(request):
@@ -274,7 +274,7 @@ def requirement(request):
 
         return redirect('/organizations/set_event')
 
-    return redirect('/organizations/set_event')
+    return render(request, 'set_event.html')
 
 @login_required
 def included(request):
@@ -295,4 +295,4 @@ def included(request):
 
         return redirect('/organizations/set_event')
 
-    return redirect('/organizations/set_event')
+    return render(request, 'set_event.html')
