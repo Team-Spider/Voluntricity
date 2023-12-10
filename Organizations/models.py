@@ -47,7 +47,7 @@ class Event(models.Model):
     registered = models.IntegerField(default=0)
     total_volunteers_required = models.IntegerField()
     banner = models.ImageField(
-        _('Logo'),
+        _('banner'),
         upload_to='event_banners/', 
         blank=True,
         null=True,
