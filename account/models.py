@@ -8,6 +8,10 @@ class CustomUser(AbstractUser):
     is_volunteer = models.BooleanField(default=False)
     is_organization = models.BooleanField(default=False)
     tc = models.BooleanField(default=False)
+    name = models.CharField(max_length=300, default=None, null = True)
+    password2 = models.CharField(max_length=128)
+    first_name = models.CharField(max_length=30, blank=True, null=True)
+    last_name = models.CharField(max_length=150, blank=True, null=True)
 
     # Ensure that only one of is_volunteer or is_organization is True
     def clean(self):
@@ -25,3 +29,11 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+class VolunteerUser(CustomUser):
+    class Meta:
+        proxy = True
+
+class OrganizationUser(CustomUser):
+    class Meta:
+        proxy = True
