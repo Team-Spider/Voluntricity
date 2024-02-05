@@ -4,7 +4,7 @@ from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     # Define fields displayed in the user list view
-    list_display = ('username', 'email', 'is_active', 'is_staff', 'is_superuser', 'is_volunteer', 'is_organization')
+    list_display = ('username', 'email', 'is_active', 'is_staff', 'is_superuser', 'is_volunteer', 'is_organization', 'tc')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'is_volunteer', 'is_organization')
     search_fields = ('username', 'email')
     ordering = ('-date_joined',)  # Sort by latest joined by default
@@ -12,7 +12,7 @@ class CustomUserAdmin(UserAdmin):
     # Fieldsets for editing user details
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_volunteer', 'is_organization')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_volunteer', 'is_organization', 'tc')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
 
@@ -20,7 +20,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2', 'is_active', 'is_staff', 'is_superuser', 'is_volunteer', 'is_organization')}
+            'fields': ('username', 'email', 'password1', 'password2', 'is_active', 'is_staff', 'is_superuser', 'is_volunteer', 'is_organization', 'tc')}
         ),
     )
 

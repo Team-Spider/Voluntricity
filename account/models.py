@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 class CustomUser(AbstractUser):
     is_volunteer = models.BooleanField(default=False)
     is_organization = models.BooleanField(default=False)
+    tc = models.BooleanField(default=False)
 
     # Ensure that only one of is_volunteer or is_organization is True
     def clean(self):
@@ -21,3 +22,6 @@ class CustomUser(AbstractUser):
             if CustomUser.objects.filter(email=self.email).exists():
                 raise ValidationError(_("Email must be unique."))
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.email
