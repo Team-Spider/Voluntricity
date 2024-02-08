@@ -1,3 +1,7 @@
+from xml.dom import ValidationErr
+from django.utils.encoding import smart_text, force_bytes, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework import serializers
 from .models import CustomUser
 
@@ -111,4 +115,17 @@ class UserChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("Passwords don't match")
         user.set_password(password)
         user.save()
+        return attrs
+
+
+class SendPasswordResetEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(max_length = 254)
+    class Meta:
+        fields = ['email']
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        if not CustomUser.objects.filter(email=email).exists():
+            raise ValidationErr("Email doesn't exist")
+        user = CustomUser.objects.get(email=email)
         return attrs

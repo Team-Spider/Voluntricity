@@ -9,8 +9,7 @@ from .serializers import *
 from .models import *
 
 
-#generate token manually
-def get_tokens_for_user(user):
+def get_tokens_for_user(user):  # Generate token manually
     refresh = RefreshToken.for_user(user)
 
     return {
@@ -21,7 +20,7 @@ def get_tokens_for_user(user):
 #Signup Classes
 
 
-class VUserRegistrationView(APIView):
+class VUserRegistrationView(APIView):   # Volunteer Registration
     renderer_classes = [UserRenderer]
     def post(self, request, format=None):
 
@@ -33,7 +32,7 @@ class VUserRegistrationView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class OUserRegistrationView(APIView):
+class OUserRegistrationView(APIView):   # Organization Registration
     renderer_classes = [UserRenderer]
     def post(self, request, format=None):
 
@@ -44,12 +43,9 @@ class OUserRegistrationView(APIView):
             return Response({'msg': 'Registration Successful', 'token' : f'{token}', 'as' : 'organization'}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-
-#Login Classes
 
 
-class UserLoginView(APIView):
+class UserLoginView(APIView):   # Login
     renderer_classes = [UserRenderer]
     def post(self, request, format=None):
         serializer = UserLoginSerializer(data=request.data)
@@ -59,8 +55,7 @@ class UserLoginView(APIView):
 
             try:
                 # Retrieve the user object using the email address
-                user = CustomUser.objects.get(email=email)
-                print(user)
+                user = CustomUser.objects.get(email=email) 
              
          
                 username = user.username
@@ -83,10 +78,29 @@ class UserLoginView(APIView):
                 print(e)
                 return Response({'errors': {'email_field_error':['Email not found']}}, status=status.HTTP_404_NOT_FOUND)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-    
 
-class UserChangePasswordView(APIView):
+class UserChangePasswordView(APIView):  # Change password
     renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
     def post(self, request, format=None):
         serializer = UserChangePasswordSerializer(data=request.data, context={'user':request.user})
+        if serializer.is_valid(raise_exception= True):
+            return Response({'msg' : 'Password Changed Successfully'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SendPasswordResetEmailView(APIView):  # Send Password Reset Email
+    renderer_classes = [UserRenderer]
+    def post(self, request, format=None):
+        serializer = SendPasswordResetEmailSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            email = serializer.validated_data.get('email')
+            try:
+                user = CustomUser.objects.get(email=email)
+                user.send_password_reset_email()
+                return Response({'msg' : 'Password Reset Email Sent'}, status=status.HTTP_200_OK)
+            except Exception as e:
+                print(e)
+                return Response({'errors': {'email_field_error':['Email not found']}}, status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
