@@ -92,15 +92,23 @@ class UserChangePasswordView(APIView):  # Change password
 class SendPasswordResetEmailView(APIView):  # Send Password Reset Email
     renderer_classes = [UserRenderer]
     def post(self, request, format=None):
-        serializer = SendPasswordResetEmailSerializer(data=request.data)
+        host = request.get_host()
+        serializer = SendPasswordResetEmailSerializer(data=request.data, context={'host': host})
         if serializer.is_valid(raise_exception=True):
             email = serializer.validated_data.get('email')
             try:
                 user = CustomUser.objects.get(email=email)
-                user.send_password_reset_email()
+                
                 return Response({'msg' : 'Password Reset Email Sent'}, status=status.HTTP_200_OK)
             except Exception as e:
                 print(e)
                 return Response({'errors': {'email_field_error':['Email not found']}}, status=status.HTTP_404_NOT_FOUND)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UserPasswordResetView(APIView):  # Password Reset
+    renderer_classes = [UserRenderer]
+    def post(self, request, uid, token, format=None):
+        serializer = UserPasswordResetSerializer(data=request.data, context={'uid':uid, 'token':token})
+        if serializer.is_valid(raise_exception=True):
+            return Response({'msg' : 'Password Reset Successful'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

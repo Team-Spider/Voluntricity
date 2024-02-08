@@ -1,9 +1,9 @@
-from xml.dom import ValidationErr
-from django.utils.encoding import smart_text, force_bytes, DjangoUnicodeDecodeError
+from django.utils.encoding import smart_bytes, smart_str, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework import serializers
 from .models import CustomUser
+from .utils import Util
 
 class VUserRegisterationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type':'password'}, write_only=True)
@@ -126,6 +126,43 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
     def validate(self, attrs):
         email = attrs.get('email')
         if not CustomUser.objects.filter(email=email).exists():
-            raise ValidationErr("Email doesn't exist")
-        user = CustomUser.objects.get(email=email)
+           print("lol")
+           raise serializers.ValidationError("Email not found")
+        else:
+            user = CustomUser.objects.get(email=email)
+            uid = urlsafe_base64_encode(smart_bytes(user.id))
+            token = PasswordResetTokenGenerator().make_token(user)
+            host = self.context.get('host')
+            link = f"http://{host}/reset/{uid}/{token}"
+
+            # Send email with link
+            body = f"Reset your password by clicking the link below:\n{link}"
+            data = {'email_body':  body, 'to_email': user.email, 'email_subject': 'Reset your password'}
+            Util.send_email(data)
         return attrs
+    
+class UserPasswordResetSerializer(serializers.Serializer):
+    password = serializers.CharField(max_length = 255, style={'input_type':'password'}, write_only=True)
+    password2 = serializers.CharField(max_length = 255, style={'input_type':'password'}, write_only=True)
+    class Meta:
+        fields = ['password', 'password2']
+
+    def validate(self, attrs):
+        try:
+            password = attrs.get('password')
+            password2 = attrs.get('password2')
+            if password != password2:
+                raise serializers.ValidationError("Passwords don't match")
+
+            uid = self.context.get('uid')
+            token = self.context.get('token')
+            id = smart_str(urlsafe_base64_decode(uid))
+            user = CustomUser.objects.get(id = id)
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                raise serializers.ValidationError("Token is not valid or has expired")
+            user.set_password(password)
+            user.save()
+            return attrs
+        except DjangoUnicodeDecodeError as identifier:
+            PasswordResetTokenGenerator().check_token(user, token)
+            raise serializers.ValidationError("Token is not valid or has expired")
