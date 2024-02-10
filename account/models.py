@@ -29,10 +29,6 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
-    
-class VolunteerUser(CustomUser):
-    class Meta:
-        proxy = True
 
 class OrganizationUser(CustomUser):
     class Meta:

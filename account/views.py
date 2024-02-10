@@ -1,12 +1,15 @@
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.core.exceptions import ObjectDoesNotExist
 from account.renderers import UserRenderer
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from .models import *
+from .utils import Util
+from django.contrib.auth import get_user_model
 
 
 def get_tokens_for_user(user):  # Generate token manually
@@ -112,3 +115,46 @@ class UserPasswordResetView(APIView):  # Password Reset
         if serializer.is_valid(raise_exception=True):
             return Response({'msg' : 'Password Reset Successful'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class SendConfirmationEmailView(APIView):  # Send Confirmation Email
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
+    def post(self, request, format=None):
+        host = request.get_host()
+
+        try:
+            user = request.user
+            if user.is_volunteer is True:
+                uas = 'volunteer'
+            elif user.is_organization is True:
+                uas = 'organization'
+            else:
+                uas = 'staff'
+            uid = urlsafe_base64_encode(smart_bytes(user.id))
+            token = PasswordResetTokenGenerator().make_token(user)
+            link = f"http://{host}/api/user/activate-email/{uid}/{token}"
+            body = f"Hi,\nAn account as {uas} is created on our website.\nClick the link below to confirm your email:\n{link}\nIf it's not you then please ignore."
+            data = {'email_body':  body, 'to_email': user.email, 'email_subject': 'Reset your password'}
+            Util.send_email(data)
+            return Response({'msg' : 'Confirmation Email Sent'}, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response({'error': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+class ActivateUserView(APIView):
+    def get(self, request, uid, token, format=None):
+        try:
+            id = smart_bytes(urlsafe_base64_decode(uid))
+            user = get_user_model().objects.get(id=id)
+            if PasswordResetTokenGenerator().check_token(user, token):
+                user.is_active = True
+                user.save()
+                return Response({'msg': 'Account activated successfully'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Activation failed'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+

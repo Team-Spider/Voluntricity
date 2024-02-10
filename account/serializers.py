@@ -30,6 +30,7 @@ class VUserRegisterationSerializer(serializers.ModelSerializer):
     def create(slef, validate_data):
         validate_data['is_volunteer'] = True
         validate_data['name'] = None
+        validate_data['is_active'] = False
         user = CustomUser.objects.create_user(**validate_data)
         return user
     
@@ -70,6 +71,7 @@ class OUserRegistrationSerializer(serializers.ModelSerializer):
         validated_data['is_organization'] = True
         validated_data['first_name'] = None
         validated_data['last_name'] = None
+        validated_data['is_active'] = False
         
         # Create user with the updated validated_data
         user = CustomUser.objects.create_user(**validated_data)

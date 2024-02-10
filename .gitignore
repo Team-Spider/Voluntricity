@@ -1,5 +1,4 @@
-/__pycache__/
-_pycache_/
-voluntricity/__pycache__
-account/__pycache__
+__pycache__/
 .vscode/
+.idea/
+video/
