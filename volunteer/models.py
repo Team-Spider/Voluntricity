@@ -94,6 +94,9 @@ class VolunteerSkills(models.Model):
 
 class Skills(models.Model):
     skill = models.CharField(_('Skill'), max_length=100)
+    Category = models.CharField(_('Category'), max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_modefied = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.skill

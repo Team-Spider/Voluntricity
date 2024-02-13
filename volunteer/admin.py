@@ -72,5 +72,11 @@ class VprofileAdmin(admin.ModelAdmin):
     get_profile_pic_filename.short_description = 'Profile Picture Filename'
 
 
+class SkillsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'skill', 'Category')
+    search_fields = ('id', 'skill', 'Category')
+
+
 admin.site.register(Vprofile, VprofileAdmin)
+admin.site.register(Skills, SkillsAdmin)
 admin.site.register(VolunteerUser, VolunteerUserAdmin)
