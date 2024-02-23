@@ -50,7 +50,7 @@ class Vprofile(models.Model):
     # Profile Picture
     profile_pic = models.ImageField(
         _('Profile Picture'),
-        upload_to='profile_pics/',  # Save uploaded files in 'profile_pics/' directory
+        upload_to='media/profile_pics/',  # Save uploaded files in 'profile_pics/' directory
         blank=True,
         null=True,
     )

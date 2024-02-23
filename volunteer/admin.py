@@ -76,7 +76,22 @@ class SkillsAdmin(admin.ModelAdmin):
     list_display = ('id', 'skill', 'Category')
     search_fields = ('id', 'skill', 'Category')
 
+class VolunteerSkillsAdmin(admin.ModelAdmin):
+    list_display = ('get_user_name', 'get_skill_name')
 
+    def get_user_name(self, obj):
+        return obj.user.name
+    get_user_name.short_description = 'User Name'  # Sets column name in admin interface
+
+    def get_skill_name(self, obj):
+        return obj.skill.name
+    get_skill_name.short_description = 'Skill Name'  # Sets column name in admin interface
+
+    search_fields = ('user__name', 'skill__name')  # Django ORM's double underscore syntax for foreign key fields
+
+
+
+admin.site.register(VolunteerSkills, VolunteerSkillsAdmin)
 admin.site.register(Vprofile, VprofileAdmin)
 admin.site.register(Skills, SkillsAdmin)
 admin.site.register(VolunteerUser, VolunteerUserAdmin)
