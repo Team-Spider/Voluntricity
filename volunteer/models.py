@@ -84,19 +84,32 @@ def save_vprofile(sender, instance, **kwargs):
     instance.vprofile.save()
 
 
-class VolunteerSkills(models.Model):
-    skill = models.ForeignKey('Skills', on_delete=models.CASCADE)
+class Category(models.Model):
+    category = models.CharField(_('Category'), max_length=100)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    def skill_count(self):
+        return Skill.objects.filter(Category=self).count()
+    skill_count.short_description = 'Number of Skills'
+
+    def __str__(self):
+        return self.category
+
+
+class VolunteerSkill(models.Model):
+    skill = models.ForeignKey('Skill', on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.skill
     
 
-class Skills(models.Model):
+class Skill(models.Model):
     skill = models.CharField(_('Skill'), max_length=100)
-    Category = models.CharField(_('Category'), max_length=100)
+    Category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     last_modefied = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.skill
+    

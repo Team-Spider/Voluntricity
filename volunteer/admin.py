@@ -72,11 +72,11 @@ class VprofileAdmin(admin.ModelAdmin):
     get_profile_pic_filename.short_description = 'Profile Picture Filename'
 
 
-class SkillsAdmin(admin.ModelAdmin):
+class SkillAdmin(admin.ModelAdmin):
     list_display = ('id', 'skill', 'Category')
     search_fields = ('id', 'skill', 'Category')
 
-class VolunteerSkillsAdmin(admin.ModelAdmin):
+class VolunteerSkillAdmin(admin.ModelAdmin):
     list_display = ('get_user_name', 'get_skill_name')
 
     def get_user_name(self, obj):
@@ -89,9 +89,14 @@ class VolunteerSkillsAdmin(admin.ModelAdmin):
 
     search_fields = ('user__name', 'skill__name')  # Django ORM's double underscore syntax for foreign key fields
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('category', 'added_at', 'skill_count')
+    search_fields = ('category',)
 
 
-admin.site.register(VolunteerSkills, VolunteerSkillsAdmin)
+
+admin.site.register(VolunteerSkill, VolunteerSkillAdmin)
 admin.site.register(Vprofile, VprofileAdmin)
-admin.site.register(Skills, SkillsAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Skill, SkillAdmin)
 admin.site.register(VolunteerUser, VolunteerUserAdmin)
